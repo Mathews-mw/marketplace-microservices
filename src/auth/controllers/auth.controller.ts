@@ -2,6 +2,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 
 import { AuthService } from '../service/auth.service';
+import { Public } from '../decorators/public.decorator';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -13,6 +14,7 @@ export class AuthController {
   @ApiOperation({ summary: 'User login' })
   @ApiResponse({ status: 200, description: 'Successful login' })
   @ApiResponse({ status: 401, description: 'Invalid credentials' })
+  @Public()
   async login(@Body() loginDto: { email: string; password: string }) {
     return await this.authService.login(loginDto);
   }
