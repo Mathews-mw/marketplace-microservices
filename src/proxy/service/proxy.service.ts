@@ -5,6 +5,8 @@ import { Injectable, Logger } from '@nestjs/common';
 
 import { serviceConfig } from '../../config/gateway.config';
 
+type HttpMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
+
 @Injectable()
 export class ProxyService {
   private readonly logger = new Logger(ProxyService.name);
@@ -13,11 +15,11 @@ export class ProxyService {
 
   async proxyRequest(
     serviceName: keyof typeof serviceConfig,
-    method: string,
+    method: HttpMethod,
     path: string,
     data?: unknown,
     headers?: Record<string, string>,
-    userInfo?: { id?: string; email?: string; role?: string },
+    userInfo?: { id: string; email: string; role: string },
   ): Promise<AxiosResponse<unknown>> {
     const service = serviceConfig[serviceName];
     const url = `${service.url}/${path}`;
